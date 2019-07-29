@@ -45,6 +45,8 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
             print("디렉터리 생성 실패")
         }
         
+        
+        
 
         /* End */
         
@@ -122,7 +124,10 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
         if audioRecorder == nil { // 일단 audioRecorder 인스턴스가 없을 때! 한 번만 하는 것!
             let audioSession = AVAudioSession.sharedInstance()
             do {
-                try audioSession.setCategory(AVAudioSession.Category.playAndRecord)
+                try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
+                                              mode: AVAudioSession.Mode.videoRecording,
+                                              options: [.defaultToSpeaker, .allowAirPlay, .allowBluetoothA2DP])
+                try audioSession.setActive(true)
             } catch {
                 print("audioSession error: \(error.localizedDescription)")
             }
@@ -137,7 +142,7 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
             makeAndFireTimer()
             
         } else { // 그 후
-            if audioRecorder?.isRecording == false {
+            if audioRecorder?.isRecording == false { 
                 do {
                     try audioRecorder = AVAudioRecorder(url: soundFileURL, settings: recordingSettings)
                     audioRecorder?.prepareToRecord()
