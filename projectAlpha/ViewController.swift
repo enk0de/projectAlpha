@@ -16,10 +16,11 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
     var audioRecorder: AVAudioRecorder?
     var timer: Timer?
     var count: Int = 0
+    var dirPath: [String]!
     var docsDir: String!
     
     var fpc: FloatingPanelController!
-
+    
     var floatingView: RecordedListViewController!
     
     let notifiText = "버튼을 터치하여 녹음을 시작하세요!"
@@ -35,8 +36,9 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
         
         /* Audio Recording Initializing */
         let filemgr = FileManager.default
-        let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        docsDir = dirPath[0] as String + "/MyVocalRecorder"
+        dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        docsDir = dirPath[0] as String + "/Recorded"
+        print(docsDir)
         do {
             try filemgr.createDirectory(atPath: docsDir, withIntermediateDirectories: true, attributes: nil)
             
@@ -45,21 +47,22 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
             print("디렉터리 생성 실패")
         }
         
-        
-        
-
-        /* End */
+        audioPlayer?.delegate = self
         
         notifiLabel.textColor = darkGrayColor
         notifiLabel.text = notifiText
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         fpc = FloatingPanelController()
         fpc.delegate = self
         
         fpc.set(contentViewController: floatingView)
         fpc.addPanel(toParent: self)
-        fpc.track(scrollView: floatingView.recordedTableView)
-        fpc.move(to: .tip, animated: true)
+        //        fpc.track(scrollView: floatingView.recordedTableView)
+        fpc.move(to: .tip, animated: false)
         
         floatingView.fpc = fpc
     }
@@ -114,6 +117,33 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
         floatingView.recordedTableView?.reloadData()
     }
     
+    func initBGMPlayer(audioData: String) {
+        let docsDirBGM = dirPath[0] as String
+        let soundFilePath = docsDirBGM.appending("/" + audioData)
+        let soundFileURL = URL(fileURLWithPath: soundFilePath)
+        
+        do {
+            try self.audioPlayer = AVAudioPlayer(contentsOf: soundFileURL)
+            audioPlayer?.prepareToPlay()
+        } catch let err as NSError {
+            print("Failed Player Initializing")
+            print("ERRCODE: \(err.code) \(err.localizedDescription)")
+        }
+    }
+    
+    func playBGM() {
+        if BGM.sharedInstance.doesBGMExist {
+            if let data = BGM.sharedInstance.getBGMFileName() {
+                initBGMPlayer(audioData: data)
+                audioPlayer?.play()
+            } else {
+                print("BGM Load Failed")
+            }
+        } else {
+            print("BGM이 지정되지 않았습니다.")
+        }
+    }
+    
     func recordStartStopAudio() {
         
         let soundFilePath = docsDir.appending("/" + getRealTime() + ".caf")
@@ -125,8 +155,9 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
             let audioSession = AVAudioSession.sharedInstance()
             do {
                 try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
-                                              mode: AVAudioSession.Mode.videoRecording,
-                                              options: [.defaultToSpeaker, .allowAirPlay, .allowBluetoothA2DP])
+                                             mode: AVAudioSession.Mode.videoRecording,
+                                             options: [.defaultToSpeaker, .allowAirPlay, .allowBluetoothA2DP])
+                
                 try audioSession.setActive(true)
             } catch {
                 print("audioSession error: \(error.localizedDescription)")
@@ -139,10 +170,11 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
                 print("audioSession error: \(error.localizedDescription)")
             }
             audioRecorder?.record()
+            playBGM()
             makeAndFireTimer()
             
         } else { // 그 후
-            if audioRecorder?.isRecording == false { 
+            if audioRecorder?.isRecording == false {
                 do {
                     try audioRecorder = AVAudioRecorder(url: soundFileURL, settings: recordingSettings)
                     audioRecorder?.prepareToRecord()
@@ -150,9 +182,11 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
                     print("audioSession error: \(error.localizedDescription)")
                 }
                 audioRecorder?.record()
+                playBGM()
                 makeAndFireTimer()
             } else {
                 audioRecorder?.stop()
+                audioPlayer?.stop() // stop BGM
                 
                 reloadTableView()
                 invalidateTimer()
@@ -181,3 +215,27 @@ class ViewController: UIViewController, FloatingPanelControllerDelegate, AVAudio
     }
 }
 
+
+class BGM {
+    static let sharedInstance = BGM()
+    
+    private var fileName: String? = nil
+    var selectedCell: UITableViewCell? = nil
+    var doesBGMExist: Bool = false
+    
+    func setBGM(_ fileName: String) {
+        self.fileName = fileName
+        self.doesBGMExist = true
+    }
+    
+    func destroyBGM() {
+        self.fileName = nil
+        doesBGMExist = false
+        selectedCell?.accessoryType = .none
+        selectedCell = nil
+    }
+    
+    func getBGMFileName() -> String? {
+        return fileName
+    }
+}

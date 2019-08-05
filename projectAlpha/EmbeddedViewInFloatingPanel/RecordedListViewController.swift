@@ -52,7 +52,7 @@ class RecordedListViewController: UIViewController, UISearchBarDelegate, Floatin
     func initFMSystem() {
         filemgr = FileManager.default
         dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        docsDir = dirPath[0] as String + "/MyVocalRecorder"
+        docsDir = dirPath[0] as String + "/Recorded/"
     }
     
     func initPlayer(audioData: String) {
@@ -117,14 +117,7 @@ class RecordedListViewController: UIViewController, UISearchBarDelegate, Floatin
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: RecordedTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RecordedTableViewCell
         
-        do {
-            let filelist = try filemgr.contentsOfDirectory(atPath: docsDir)
-            cell.fileName.text = filelist[indexPath.row]
-            print(filelist[indexPath.row])
-        } catch {
-            print("실패")
-        }
-        
+        cell.fileName.text = fileList[indexPath.row]
         return cell
     }
     

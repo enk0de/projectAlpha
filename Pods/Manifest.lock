@@ -1,16 +1,20 @@
 PODS:
   - FloatingPanel (1.6.3)
+  - SwiftyBeaver (1.7.0)
 
 DEPENDENCIES:
   - FloatingPanel
+  - SwiftyBeaver
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - FloatingPanel
+    - SwiftyBeaver
 
 SPEC CHECKSUMS:
   FloatingPanel: a318d2f98eeb44e09c336d920f0eabc7c7b1579d
+  SwiftyBeaver: 4cc0080d2e23f980652e28978db11a5c9da39165
 
-PODFILE CHECKSUM: 00e540485080fadbb7d550c9cacd8fa8ed3feb03
+PODFILE CHECKSUM: f47c18d5dcfb6f700fe51db3ec30eecbde5c76f2
 
 COCOAPODS: 1.7.5

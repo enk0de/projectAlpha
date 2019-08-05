@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0461AC5722EF0A430044791E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0461AC5622EF0A430044791E /* SettingViewController.swift */; };
+		0461AC5922EF1A4B0044791E /* BgmSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0461AC5822EF1A4B0044791E /* BgmSettingViewController.swift */; };
 		0475802622EDBE5B005F3F9D /* RecordedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475802522EDBE5B005F3F9D /* RecordedTableViewCell.swift */; };
 		0487F2B122EC428600DA7473 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F2B022EC428600DA7473 /* AppDelegate.swift */; };
 		0487F2B322EC428600DA7473 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F2B222EC428600DA7473 /* ViewController.swift */; };
@@ -40,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		030A9184EED3369880694305 /* Pods-projectAlphaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-projectAlphaTests.release.xcconfig"; path = "Target Support Files/Pods-projectAlphaTests/Pods-projectAlphaTests.release.xcconfig"; sourceTree = "<group>"; };
+		0461AC5622EF0A430044791E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		0461AC5822EF1A4B0044791E /* BgmSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BgmSettingViewController.swift; sourceTree = "<group>"; };
 		0475802522EDBE5B005F3F9D /* RecordedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordedTableViewCell.swift; sourceTree = "<group>"; };
 		0487F2AD22EC428600DA7473 /* projectAlpha.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projectAlpha.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0487F2B022EC428600DA7473 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +97,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0461AC5A22EF1A510044791E /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				0461AC5622EF0A430044791E /* SettingViewController.swift */,
+				0461AC5822EF1A4B0044791E /* BgmSettingViewController.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
+		0461AC5B22EF1A5F0044791E /* EmbeddedViewInFloatingPanel */ = {
+			isa = PBXGroup;
+			children = (
+				04D1FCF122ECA12000598EF4 /* RecordedListViewController.swift */,
+				0475802522EDBE5B005F3F9D /* RecordedTableViewCell.swift */,
+			);
+			path = EmbeddedViewInFloatingPanel;
+			sourceTree = "<group>";
+		};
 		0487F2A422EC428600DA7473 = {
 			isa = PBXGroup;
 			children = (
@@ -118,14 +140,14 @@
 		0487F2AF22EC428600DA7473 /* projectAlpha */ = {
 			isa = PBXGroup;
 			children = (
+				0461AC5B22EF1A5F0044791E /* EmbeddedViewInFloatingPanel */,
+				0461AC5A22EF1A510044791E /* SettingView */,
 				0487F2B022EC428600DA7473 /* AppDelegate.swift */,
 				0487F2B222EC428600DA7473 /* ViewController.swift */,
 				0487F2B422EC428600DA7473 /* Main.storyboard */,
 				0487F2B722EC428700DA7473 /* Assets.xcassets */,
 				0487F2B922EC428700DA7473 /* LaunchScreen.storyboard */,
 				0487F2BC22EC428800DA7473 /* Info.plist */,
-				04D1FCF122ECA12000598EF4 /* RecordedListViewController.swift */,
-				0475802522EDBE5B005F3F9D /* RecordedTableViewCell.swift */,
 			);
 			path = projectAlpha;
 			sourceTree = "<group>";
@@ -392,9 +414,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0461AC5722EF0A430044791E /* SettingViewController.swift in Sources */,
 				0487F2B322EC428600DA7473 /* ViewController.swift in Sources */,
 				0475802622EDBE5B005F3F9D /* RecordedTableViewCell.swift in Sources */,
 				04D1FCF222ECA12000598EF4 /* RecordedListViewController.swift in Sources */,
+				0461AC5922EF1A4B0044791E /* BgmSettingViewController.swift in Sources */,
 				0487F2B122EC428600DA7473 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
